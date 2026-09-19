@@ -56,7 +56,7 @@ child.on("exit", (code) => {
     process.exit(1);
   }
 
-  const setupExe = path.join(distOut, "AuraNada Setup 3.2.0.exe");
+  const setupExe = path.join(distOut, "AuraNada_Setup.exe");
   if (fs.existsSync(setupExe)) {
     console.log("Setup ready: " + setupExe);
   } else {

@@ -16,7 +16,7 @@ AuraNada is a free, open-source audio mastering studio for Windows. It analyzes,
 
 ## Install
 
-Download `AuraNada-Setup-3.2.0.exe` from the [Releases](https://github.com/suphimen/AuraNada/releases) page.
+Download `AuraNada_Setup.exe` from the [Releases](https://github.com/suphimen/AuraNada/releases) page.
 
 No runtime is required. FFmpeg, FFprobe, Node.js and everything else is either bundled or only needed for development.
 
@@ -40,7 +40,7 @@ npm install
 npm run dist
 ```
 
-`npm run dist` packages the unpacked app with Electron Builder and compiles the Inno Setup installer into `dist\AuraNada-Setup-3.2.0.exe`.
+`npm run dist` packages the unpacked app with Electron Builder and compiles the Inno Setup installer into `dist\AuraNada_Setup.exe`.
 
 ## Application data
 
