@@ -223,6 +223,25 @@ footer a:hover{text-decoration:underline}
 </div>
 </section>
 
+<!-- DEMO AUDIO -->
+<section id="demo">
+<div class="section-inner">
+  <div class="section-label" data-i18n="d.label">Örnek Sesler</div>
+  <h2 class="section-title" data-i18n="d.title">Kendin Dinle</h2>
+  <p class="section-desc" data-i18n="d.desc">Aynı parçanın orijinalini ve AuraNada ile işlenmiş halini yan yana dinleyin.</p>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:860px;margin:0 auto">
+    <div style="background:var(--surface);border:1px solid rgba(124,111,239,.25);border-radius:12px;padding:16px;width:280px">
+      <h3 data-i18n="d.a.title">A, Orijinal</h3>
+      <audio controls preload="none" style="width:100%"><source src="web_page_sample_sounds/AuraNada_suno_sample.m4a" type="audio/mp4"></audio>
+    </div>
+    <div style="background:var(--surface);border:1px solid rgba(52,217,200,.25);border-radius:12px;padding:16px;width:280px">
+      <h3 data-i18n="d.b.title">B, AuraNada Master</h3>
+      <audio controls preload="none" style="width:100%"><source src="web_page_sample_sounds/AuraNada_youtube_sample.m4a" type="audio/mp4"></audio>
+    </div>
+  </div>
+</div>
+</section>
+
 <!-- TECH -->
 <section id="tech">
 <div class="section-inner">
@@ -282,6 +301,7 @@ const I18N = {
     "h.s3.title":"Analiz Et","h.s3.desc":"Loudness (LUFS), true peak, LRA ve format ayrı bir analiz panelinde raporlanır.",
     "h.s4.title":"A/B İle Karşılaştır","h.s4.desc":"Dönüştürmeden önce orijinali ve işlenmiş çıktıyı yan yana önizleyin.",
     "h.s5.title":"Dönüştür","h.s5.desc":"İşlenmiş dosyalar çıktı klasörüne yazılır - isteğe bağlı metadata ile, hepsi yerel ve hızlı.",
+    "d.label":"Örnek Sesler","d.title":"Kendin Dinle","d.desc":"Aynı parçanın orijinalini ve AuraNada ile işlenmiş halini yan yana dinleyin.","d.a.title":"A, Orijinal","d.b.title":"B, AuraNada Master",
     "t.label":"Teknoloji","t.title":"Hangi Teknolojiler?",
     "t.desc":"Saf HTML/CSS/JS yüzüyle güçlü, yerel ve hızlı bir Electron masaüstü uygulaması - işlemler tamamen cihazınızda gerçekleşir.",
     "i.title":"İndir & Kur","i.desc":"Tek kurulum dosyası, bağımlılık yok. FFmpeg kurulu olmasına gerek yoktur - içinde gelir.",
@@ -305,6 +325,7 @@ const I18N = {
     "h.s3.title":"Analyze","h.s3.desc":"Loudness (LUFS), true peak, LRA and format are reported in a dedicated analysis panel.",
     "h.s4.title":"Compare with A/B","h.s4.desc":"Preview the original and the processed output side by side before converting.",
     "h.s5.title":"Convert","h.s5.desc":"Rendered files are written to the output folder - with optional metadata, all local and fast.",
+    "d.label":"Sample Audio","d.title":"Hear It","d.desc":"Listen to the original and the AuraNada mastered result side by side.","d.a.title":"A, Original","d.b.title":"B, Mastered with AuraNada",
     "t.label":"Technology","t.title":"What powers it?",
     "t.desc":"A native-feeling Electron desktop app with a pure HTML/CSS/JS frontend - everything runs locally on your machine.",
     "i.title":"Download & Install","i.desc":"A single installer, no dependencies. FFmpeg is not required - it is bundled.",
@@ -365,6 +386,30 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
     }
     requestAnimationFrame(tick);
   })();
+})();
+
+/* subtle UI sounds, synthesized with FFmpeg, no license needed */
+(function initSfx(){
+  const hover = new Audio("web_page_sample_sounds/ui_hover.mp3");
+  const click = new Audio("web_page_sample_sounds/ui_click.mp3");
+  hover.volume = 0.15;
+  click.volume = 0.22;
+  let ready = false;
+  window.addEventListener("pointerdown", () => { ready = true; }, { once: true });
+  document.addEventListener("mouseover", (e) => {
+    if (!ready) return;
+    if (e.target.closest("a,button,audio,.feature,.step")) {
+      hover.currentTime = 0;
+      hover.play().catch(() => {});
+    }
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (!ready) return;
+    if (e.target.closest("a,button")) {
+      click.currentTime = 0;
+      click.play().catch(() => {});
+    }
+  });
 })();
 
 applyLang(detectLang());
