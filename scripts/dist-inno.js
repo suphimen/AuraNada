@@ -5,7 +5,7 @@ const path = require("path");
 
 const root = path.join(__dirname, "..");
 
-// Stage 1 — package the unpacked app directly from source (no obfuscation, no signing)
+// Stage 1 - package the unpacked app directly from source (no obfuscation, no signing)
 const cli = require.resolve("electron-builder/out/cli/cli.js");
 const child = spawn(
   process.execPath,
@@ -34,7 +34,7 @@ child.on("exit", (code) => {
   const distOut = path.join(root, "dist");
   fs.mkdirSync(distOut, { recursive: true });
 
-  // Stage 2 — compile the Inno Setup installer (unsigned)
+  // Stage 2 - compile the Inno Setup installer (unsigned)
   let tpl = fs.readFileSync(path.join(root, "build", "inno-template.iss"), "utf8");
   tpl = tpl
     .replace(/@@APPSRCDIR@@/g, appDir)

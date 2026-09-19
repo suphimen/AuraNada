@@ -2,7 +2,7 @@
   "name": "auranada",
   "productName": "AuraNada",
   "version": "3.2.0",
-  "description": "AuraNada — Audio Studio",
+  "description": "AuraNada Audio Studio",
   "main": "main.js",
   "author": "suphimen",
   "license": "MIT",

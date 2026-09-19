@@ -148,7 +148,7 @@ body.panel-kilitli .profile-editor input:disabled{opacity:.5; cursor:default;}
 .pe-col{display:flex; flex-direction:column; gap:10px;}
 .pe-col .s-card{min-width:0;}
 
-/* FFmpeg badge — right side of the tabs */
+/* FFmpeg badge - right side of the tabs */
 .tabs-right{margin-left:auto; display:flex; align-items:center; padding-right:6px;}
 .ff-badge{
   font-family:'Sora',sans-serif; font-size:10.5px; font-weight:600;
@@ -248,11 +248,11 @@ body.panel-kilitli .profile-editor input:disabled{opacity:.5; cursor:default;}
 .btn-refresh:hover{color:var(--text); border-color:#343947;}
 
 .note{text-align:center; color:var(--muted-dim); font-size:11px; margin-top:18px;}
-/* PP: suphimen linki — mor */
+/* PP: suphimen linki - mor */
 .note a{color:var(--violet); font-weight:600; cursor:pointer; text-decoration:none;}
 .note a:hover{color:var(--cyan); text-decoration:underline;}
  
-/* ---- INFO BAR (old horizontal summary — removed) ---- */
+/* ---- INFO BAR (old horizontal summary - removed) ---- */
 .console{display:none;}
  
 /* --- Convert action button --- */
@@ -300,7 +300,7 @@ body.panel-kilitli .profile-editor input:disabled{opacity:.5; cursor:default;}
 .ab-file-row #ab-bilgi{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan);}
 .ab-profil-wrap{margin-left:auto; display:flex; align-items:center; gap:6px;}
 .ab-profil-lbl{font-size:11px; color:var(--muted);}
-/* Native audio controls — Chromium overrides removed (color shift / white line / invisible play / hover-only progress came from them).
+/* Native audio controls - Chromium overrides removed (color shift / white line / invisible play / hover-only progress came from them).
    Only generic styling is applied for a clean dark-native look. */
 .ab-player audio{color-scheme:dark; accent-color:var(--violet); filter:sepia(.38) hue-rotate(228deg) saturate(2.6) drop-shadow(0 0 5px rgba(124,111,239,.35));}
 .analiz-btn-row{display:flex; gap:10px; margin-bottom:16px;}

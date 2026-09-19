@@ -249,7 +249,7 @@ function syncSettingsToUI() {
   }
 }
 
-// ── PROFILE SYSTEM — SINGLE SOURCE OF TRUTH ─────────────────────────────
+// ── PROFILE SYSTEM - SINGLE SOURCE OF TRUTH ─────────────────────────────
 function renderProfileChips() {
   const build = (container) => {
     container.innerHTML = "";
@@ -381,9 +381,9 @@ function resetSelection() {
   state.tekDosya = "";
   $("dz-klasor-selected").textContent = "";
   $("dz-tek-selected").textContent = "";
-  $("f-count").textContent = "—"; $("f-count").style.color = "";
-  $("f-names").textContent = "—"; $("f-names").style.color = "";
-  $("f-ciktiklasoru").textContent = "—";
+  $("f-count").textContent = "-"; $("f-count").style.color = "";
+  $("f-names").textContent = "-"; $("f-names").style.color = "";
+  $("f-ciktiklasoru").textContent = "-";
   $("inp-sarki").value = "";
   setBtnIdle($("btn-basla"), "▷ Start");
   kilitlePanel(false);
@@ -700,7 +700,7 @@ function wireOnizlePanel() {
     const start = Number($("ab-start").value) || 0;
     const dur = Number($("ab-dur").value) || 15;
     const p = currentProfile();
-    $("ab-durum").textContent = `${p ? p.name : state.selectedId} — generating…`;
+    $("ab-durum").textContent = `${p ? p.name : state.selectedId} - generating…`;
     $("ab-durum").style.color = "var(--warn)";
     const r = await window.auradio.generateAB(dosya, start, dur, state.settings);
     setBtnIdle(btn, "▷ Generate A/B");

@@ -49,7 +49,7 @@ app.on("web-contents-created", (_event, contents) => {
 // Set FFmpeg base path for bundled/unbundled scenarios
 const getFfmpegBase = () => {
   // In production (packaged), ffmpeg.exe is in resources/
-  // In development, it's in the project root (auradio-electron/)
+  // In development, it's in the project root.
   if (app.isPackaged) {
     return process.resourcesPath;
   }
@@ -263,7 +263,7 @@ ipcMain.handle("convert:start", async (e, payload) => {
   kayitlar.push({
     tarih: new Date().toLocaleString("en-US"),
     mod,
-    profil: profilAdi || "—",
+    profil: profilAdi || "-",
     format: settings.format || "m4a",
     bitrate: settings.bitrate || "192k",
     lufs: settings.lufs || "-14",
@@ -275,7 +275,7 @@ ipcMain.handle("convert:start", async (e, payload) => {
       settings.kompres ? "Compression" : null,
       settings.reverb ? "Reverb" : null,
       settings.noise ? "Noise" : null,
-    ].filter(Boolean).join("+") || "—",
+    ].filter(Boolean).join("+") || "-",
     klasor: sonuc.klasor, cikti: sonuc.cikti,
     toplam: sonuc.toplam, basarili: sonuc.toplam - sonuc.hatalar.length,
     hatali: sonuc.hatalar.length, hataliDosyalar: sonuc.hatalar.slice(0, 20),

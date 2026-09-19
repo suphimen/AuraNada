@@ -1,4 +1,4 @@
-; AuraNada — Inno Setup install script
+; AuraNada - Inno Setup install script
 ; Filled in by scripts\dist-inno.js and compiled as build\AuraNada.inno.iss.
 
 #define AppVersion "3.2.0"

@@ -1,99 +1,71 @@
-# AuraNada — Electron Edition
+# AuraNada
 
-This folder is a full **Electron + Node.js** rewrite of the previous Python/Tkinter
-release. Because the interface is now real HTML/CSS, it is **pixel-identical** to the
-`auradio-redesign-v2.html` mockup — the mockup itself became the real interface with
-very little change (`src/index.html` + `src/styles.css`).
+AuraNada is a free, open-source audio mastering studio for Windows. It analyzes, normalizes and re-masters audio files with a clean, native-feeling interface. Everything runs locally on your machine.
 
-All of the business logic (FFmpeg filter chain, 2-pass loudnorm, profile system,
-analysis, A/B preview, history) was **ported 1:1** from the Python version — no
-features were dropped. In this edition, the download modules and Suno-provenance
-detection were removed; the app now works purely as an **audio analysis / mastering
-tool**.
+## Features
 
-## Setup (development / run)
+- Multi-format conversion (MP4, MP3, FLAC, WAV) powered by FFmpeg
+- 2-pass loudness normalization to an exact LUFS target
+- Loudness Range (LRA) and true-peak analysis
+- One-click metadata cleaning, protected-tag preserving, or complete wipe
+- Real-time A/B preview of the original versus the processed result
+- Pitch/tempo micro-adjust, stereo widening, warmth EQ, dynamic compression, room reverb and tape-hiss textures
+- Built-in profiles plus fully customizable, saveable profiles
+- Batch conversion with optional `names.txt` output naming
+- 100% offline; FFmpeg is bundled with the installer
 
-1. [Node.js](https://nodejs.org) must be installed (18+ recommended).
-2. Put `ffmpeg.exe` and `ffprobe.exe` in the root of this folder (as in the Python
-   version — at the project root, not next to the `lib/` folder).
-3. In the terminal, in this folder:
-   ```
-   npm install
-   npm start
-   ```
-   This downloads the `electron` package and opens the app.
+## Install
 
-## Packaging as .exe
+Download `AuraNada-Setup-3.2.0.exe` from the [Releases](https://github.com/suphimen/AuraNada/releases) page.
 
-Requirements: [Node.js](https://nodejs.org) (18+) and [Inno Setup 6](https://jrsoftware.org/isdl.php)
-(installed at `C:\Program Files (x86)\Inno Setup 6\ISCC.exe`).
+No runtime is required. FFmpeg, FFprobe, Node.js and everything else is either bundled or only needed for development.
 
+## Development
+
+Requirements:
+
+- Node.js 18+ and npm
+- `ffmpeg.exe` and `ffprobe.exe` placed in the project root (development only; the binaries are not committed to the repository)
+- Inno Setup 6 (only to build the installer)
+
+```bash
+npm install
+npm start
 ```
+
+## Building the installer
+
+```bash
 npm install
 npm run dist
 ```
 
-`npm run dist` (→ `scripts/dist-inno.js`) packages the source straight with
-`electron-builder --dir` (no obfuscation — this is an open-source, readable build),
-then compiles an **Inno Setup** installer (`build\inno-template.iss` →
-`build\AuraNada.inno.iss`) in the `dist/` folder: `AuraNada Setup 3.2.0.exe`.
+`npm run dist` packages the unpacked app with Electron Builder and compiles the Inno Setup installer into `dist\AuraNada-Setup-3.2.0.exe`.
 
-The installer is **unsigned**. Code signing was removed for the open-source release
-(the old signing certificate and its password are not part of this repository);
-Windows SmartScreen may show a "unknown publisher" warning. To publish your own
-signed builds, re-add a `SignTool=`/`SignedUninstaller=yes` entry in
-`build\inno-template.iss` and rename `[Setup]` internals accordingly — or distribute
-the `dist\win-unpacked\AuraNada.exe` portable build directly.
+## Application data
 
-`ffmpeg.exe`/`ffprobe.exe` are automatically embedded in the package
-(`extraResources`). They are **not committed** to this repository (they are near the
-100 MB GitHub limit and are GPL binaries) — place `ffmpeg.exe` and `ffprobe.exe` in the
-project root before running the packaging step (same requirement as the dev setup).
+Settings, profiles and processing history live in `%APPDATA%\AuraNada\`:
 
-## Data location
+- `settings.json` - current defaults
+- `profiles.json` - custom profiles
+- `history.json` - normalization history
 
-Settings / profiles / history are kept in `%APPDATA%\AuraNada\`
-(`settings.json`, `profiles.json`, `history.json`). The JSON schema is kept
-compatible, so switching between the Python and Electron versions does not lose
-your settings.
+## Project structure
 
-## Folder structure
-
+```text
+main.js             Electron main process, security hardening, IPC handlers
+preload.js          Safe IPC bridge (contextIsolation kept on)
+lib/ffmpeg.js       FFmpeg wrapper: analysis, filter chain, conversion
+lib/store.js        JSON storage helpers
+src/index.html      Interface markup
+src/styles.css      Interface styling (dark theme)
+src/renderer.js     Interface logic and profile system
+scripts/dist-inno.js  Installer build script
+build/inno-template.iss  Inno Setup template
+showcase.html       Project landing page
+USER_GUIDE.txt      Bundled user guide
 ```
-main.js          → Electron main process: window, IPC, file dialogs
-preload.js       → safe API exposed to the renderer via contextBridge (window.auradio.*)
-lib/ffmpeg.js    → filter chain / loudnorm / conversion logic ported from Python
-lib/store.js     → JSON read/write helpers
-src/index.html   → Interface (the real, functional mockup)
-src/styles.css   → CSS from the mockup (the window is a real window now, so
-                   the fake "desktop background" was removed; it fills the screen)
-src/renderer.js  → All interface logic: state, IPC calls, progress events
-```
-
-## Limitations / notes
-
-- No **live Electron runtime test** was possible in this sandbox environment
-  (no display server; the `electron` package could not be installed because it
-  requires internet). All JS files were syntax-validated with `node --check`;
-  every HTML id, every `window.auradio.*` call and every IPC channel name was
-  cross-checked between main/preload/renderer. If the first run shows an error
-  (visible in the DevTools console — `Ctrl+Shift+I`), paste the message and it
-  will be fixed right away.
-- The window is **frameless** — the custom title bar from the mockup really
-  works (drag + minimize/maximize/close buttons).
-- Google Fonts (Sora/Inter/JetBrains Mono) are loaded from the internet; when
-  running offline they fall back to system fonts. The fonts can be embedded as
-  local files to become fully offline.
-
-## Download
-
-- Installer: `AuraNada Setup 3.2.0.exe` — available on the
-  [Releases](https://github.com/suphimen/AuraNada/releases) page.
-- Portable: run `dist\win-unpacked\AuraNada.exe` directly.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
-
-## Credit
-**suphimen**
+MIT - see [LICENSE](LICENSE).
