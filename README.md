@@ -25,21 +25,25 @@ tool**.
 
 ## Packaging as .exe
 
-Requirements: [Node.js](https://nodejs.org) (18+), [Inno Setup 6](https://jrsoftware.org/isdl.php)
-(installed at `C:\Program Files (x86)\Inno Setup 6\ISCC.exe`), and the code-signing
-certificate at `build\cert\AuraNada.pfx` (the password is in `scripts\dist-inno.js`;
-the cert itself is **gitignored**, so you need your own to sign — un-signed builds
-can be produced by removing/editing the signing steps).
+Requirements: [Node.js](https://nodejs.org) (18+) and [Inno Setup 6](https://jrsoftware.org/isdl.php)
+(installed at `C:\Program Files (x86)\Inno Setup 6\ISCC.exe`).
 
 ```
 npm install
-node scripts/dist-inno.js
+npm run dist
 ```
 
-`scripts/dist-inno.js` obfuscates the source with `javascript-obfuscator`, packages the
-app with `electron-builder --dir`, then compiles an **Inno Setup** installer
-(`build\inno-template.iss` → `build\AuraNada.inno.iss`) in the `dist/` folder:
-`AuraNada Setup 3.2.0.exe`.
+`npm run dist` (→ `scripts/dist-inno.js`) packages the source straight with
+`electron-builder --dir` (no obfuscation — this is an open-source, readable build),
+then compiles an **Inno Setup** installer (`build\inno-template.iss` →
+`build\AuraNada.inno.iss`) in the `dist/` folder: `AuraNada Setup 3.2.0.exe`.
+
+The installer is **unsigned**. Code signing was removed for the open-source release
+(the old signing certificate and its password are not part of this repository);
+Windows SmartScreen may show a "unknown publisher" warning. To publish your own
+signed builds, re-add a `SignTool=`/`SignedUninstaller=yes` entry in
+`build\inno-template.iss` and rename `[Setup]` internals accordingly — or distribute
+the `dist\win-unpacked\AuraNada.exe` portable build directly.
 
 `ffmpeg.exe`/`ffprobe.exe` are automatically embedded in the package
 (`extraResources`). They are **not committed** to this repository (they are near the

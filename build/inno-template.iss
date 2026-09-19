@@ -31,8 +31,6 @@ WizardStyle=modern
 CloseApplications=yes
 CloseApplicationsFilter=AuraNada.exe,ffmpeg.exe,ffprobe.exe
 RestartApplications=no
-SignTool=aurasign
-SignedUninstaller=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

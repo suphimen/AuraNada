@@ -2,26 +2,15 @@
 const { spawn, spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const os = require("os");
-const { hazirla } = require("./obfuscate");
 
 const root = path.join(__dirname, "..");
-const pfx = path.join(root, "build", "cert", "AuraNada.pfx");
-if (!fs.existsSync(pfx)) {
-  console.error("Signing certificate not found: " + pfx);
-  process.exit(1);
-}
 
-process.env.CSC_LINK = pfx;
-process.env.CSC_KEY_PASSWORD = "AuraNada-CS-2026";
-
-const staging = hazirla();
-
+// Stage 1 — package the unpacked app directly from source (no obfuscation, no signing)
 const cli = require.resolve("electron-builder/out/cli/cli.js");
 const child = spawn(
   process.execPath,
-  [cli, "--win", "--x64", "--dir", "--publish", "never", "--projectDir", staging],
-  { stdio: "inherit", cwd: staging }
+  [cli, "--win", "--x64", "--dir", "--publish", "never"],
+  { stdio: "inherit", cwd: root }
 );
 
 child.on("error", (err) => {
@@ -34,7 +23,8 @@ child.on("exit", (code) => {
     console.error("Packaging failed (code: " + code + ")");
     process.exit(code == null ? 1 : code);
   }
-  const appDir = path.join(staging, "dist", "win-unpacked");
+
+  const appDir = path.join(root, "dist", "win-unpacked");
   const appExe = path.join(appDir, "AuraNada.exe");
   if (!fs.existsSync(appExe)) {
     console.error("win-unpacked AuraNada.exe not found: " + appExe);
@@ -44,26 +34,7 @@ child.on("exit", (code) => {
   const distOut = path.join(root, "dist");
   fs.mkdirSync(distOut, { recursive: true });
 
-  const signtool = path.join(
-    process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local"),
-    "electron-builder", "Cache", "winCodeSign", "winCodeSign-2.6.0",
-    "windows-10", "x64", "signtool.exe"
-  );
-  if (!fs.existsSync(signtool)) {
-    console.error("signtool not found: " + signtool);
-    process.exit(1);
-  }
-
-  const pfxTmp = path.join(
-    process.env.TEMP || "C:\\Windows\\Temp", "opencode", "AuraNada.pfx"
-  );
-  fs.mkdirSync(path.dirname(pfxTmp), { recursive: true });
-  fs.copyFileSync(pfx, pfxTmp);
-
-  const signer =
-    `${signtool} sign /f ${pfxTmp} /p AuraNada-CS-2026 /fd SHA256 ` +
-    "/tr http://timestamp.digicert.com /td SHA256 $f";
-
+  // Stage 2 — compile the Inno Setup installer (unsigned)
   let tpl = fs.readFileSync(path.join(root, "build", "inno-template.iss"), "utf8");
   tpl = tpl
     .replace(/@@APPSRCDIR@@/g, appDir)
@@ -79,7 +50,7 @@ child.on("exit", (code) => {
     process.exit(1);
   }
 
-  const r = spawnSync(iscc, [gen, "/Saurasign=" + signer], { stdio: "inherit" });
+  const r = spawnSync(iscc, [gen], { stdio: "inherit" });
   if (r.status !== 0) {
     console.error("Setup compilation failed (code: " + r.status + ")");
     process.exit(1);

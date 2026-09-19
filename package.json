@@ -8,13 +8,11 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "dist": "node scripts/dist.js",
-    "distsetup": "electron-builder --win --x64 --nsis"
+    "dist": "node scripts/dist-inno.js"
   },
   "devDependencies": {
     "electron": "^44.4.1",
-    "electron-builder": "^26.15.3",
-    "javascript-obfuscator": "^5.7.0"
+    "electron-builder": "^26.15.3"
   },
   "build": {
     "appId": "com.auranada.audiostudio",
@@ -48,26 +46,7 @@
       "onlyLoadAppFromAsar": true
     },
     "win": {
-      "icon": "build/AuraNada_icon.png",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "nsis": {
-      "uninstallDisplayName": "AuraNada",
-      "perMachine": false,
-      "createStartMenuShortcut": false,
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "shortcutName": "AuraNada",
-      "deleteAppDataOnUninstall": true,
-      "include": "build/installer.nsh"
+      "icon": "build/AuraNada_icon.png"
     }
   }
 }
