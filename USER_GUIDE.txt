@@ -1,0 +1,699 @@
+═══════════════════════════════════════════════════════
+                    A u r a N a d a
+                    Audio Studio
+             Comprehensive User Guide
+                   Version 3.2.0
+                  Coder: suphimen
+═══════════════════════════════════════════════════════
+
+This document is the single source that explains every screen of
+AuraNada, what each button, field and setting does, and how to use
+them step by step. It ships inside the installation package and can
+always be opened from Start Menu > AuraNada > "AuraNada User Guide".
+
+TABLE OF CONTENTS
+─────────────────
+  1. What is AuraNada? What Can It Do?
+  2. System Requirements
+  3. Installation, Digital Signature and First Run
+  4. Main Window and Interface
+  5. Convert Tab — Step-by-Step Flow
+  6. Modes: Folder (Batch), Single File
+  7. File Selection and Naming (names.txt)
+  8. Song Name / Artist / Album (Metadata)
+  9. Output Folder and Output Files
+ 10. Profiles: Built-In Profiles, Creating, Resetting, Deleting
+ 11. Settings Editor: Meaning of All Parameters
+ 12. Effects: What Each Effect Does
+ 13. Starting Conversion, Progress and Cancel
+ 14. Lock Behavior (During Conversion)
+ 15. Analyze Tab: How to Read the Results?
+ 16. A/B Preview Tab: Original vs Processed
+ 17. Where Is the Data Stored? (Privacy)
+ 18. Troubleshooting
+ 19. Frequently Asked Questions
+ 20. Legal Notice and Liability
+ 21. Uninstall and Clean Install
+
+═══════════════════════════════════════════════════════
+1. What is AuraNada? What Can It Do?
+═══════════════════════════════════════════════════════
+AuraNada is an audio processing tool that runs COMPLETELY OFFLINE on
+your computer. It is not a simple "format converter"; it combines
+several jobs in a single window:
+
+   • Converting audio files (MP3, M4A, AAC, WAV, FLAC, OGG, OPUS
+     and more)
+   • Batch (folder) and single-file conversion
+   • Analyzing and reporting technical properties of audio
+     (loudness LUFS, peak value, bit rate, metadata tags, etc.)
+   • A/B preview: listen to and compare the original vs the
+     processed version of the same file
+   • Profiles: save and reuse groups of settings
+
+Highlights
+   • 100% offline operation
+   • Does NOT require internet; collects no data, sends no
+     telemetry, asks for no registration/activation
+   • The installer downloads no extra components; the converter
+     and encoders (FFmpeg) are inside the package
+   • A clean, single-window design developed around user feedback
+
+═══════════════════════════════════════════════════════
+2. System Requirements
+═══════════════════════════════════════════════════════
+   Operating System : Windows 10 / 11 (64-bit)
+   CPU              : 1 GHz or higher
+   Memory (RAM)     : 2 GB or more
+   Disk             : 300 MB of free space (after installation)
+   Display          : 1280x720 or better
+
+Nothing else is required. The FFmpeg engine, encoders and audio
+tools are all inside the installation package.
+
+═══════════════════════════════════════════════════════
+3. Installation, Digital Signature and First Run
+═══════════════════════════════════════════════════════
+Installation File
+   • Name: "AuraNada Setup 3.2.0.exe"
+   • Does NOT require administrator rights on Windows; it installs
+     per-user and keeps your settings in your own user account.
+
+Digital Signature Information
+   • The installer is digitally signed:
+     Publisher: AuraNada (CN=AuraNada, O=AuraNada, C=TR)
+   • Because the signature was produced with a self-signed
+     certificate owned by AuraNada, it is not in the trusted CA
+     list. Therefore Windows may show a "Windows protected your PC"
+     (SmartScreen) warning on the first install.
+   • This warning is harmless. Click "More info" > "Run anyway" to
+     continue.
+
+Installation Steps
+   1. Double-click "AuraNada Setup 3.2.0.exe".
+   2. If a SmartScreen warning appears, click "More info" >
+      "Run anyway".
+   3. In the wizard click "Next" and follow the steps. You can
+      change the installation folder if you want
+      (default: %LOCALAPPDATA%\Programs\AuraNada).
+   4. Click "Finish".
+
+First Run
+   You can open the app from:
+     • The desktop shortcut "AuraNada"
+     • Start Menu > AuraNada > "AuraNada"
+     • AuraNada.exe in the installation folder
+   The main window appears directly on first launch; no
+   registration, activation or internet is required.
+
+IMPORTANT: On every launch the app automatically cleans up old
+temporary files left from A/B previews (%TEMP%\AuraNada_preview_*.m4a).
+This way no traces or junk accumulate.
+
+═══════════════════════════════════════════════════════
+4. Main Window and Interface
+═══════════════════════════════════════════════════════
+The window is frameless (undecorated) by design.
+
+TITLE BAR (top row)
+   Left: AuraNada logo + the "AuraNada - Audio Studio" name.
+   Right: Window buttons:
+     • [—] Minimize : minimizes the window to the taskbar
+     • [□] Maximize : takes the window to/back from full screen
+     • [✕] Close    : closes the app (if no conversion is running)
+
+TABS
+   The app is split into three tabs:
+     • Convert    → conversion, profiles and the settings editor
+     • Analyze    → technical report of an audio file
+     • A/B Preview→ original vs processed comparison
+   Top right is a small "FFmpeg" badge:
+     • Green "FFmpeg active"   → engine ready
+     • Red "FFmpeg not found"  → engine missing (see Section 19)
+
+TIP: Hovering over a button shows a short tooltip.
+
+═══════════════════════════════════════════════════════
+5. Convert Tab — Step-by-Step Flow
+═══════════════════════════════════════════════════════
+The basic flow to finish one conversion:
+
+   1. Select the mode (Folder / Single file)    → Section 6
+   2. Select the file or folder                → Sections 6-7
+   3. If needed, enter song name / artist / album  → Section 8
+   4. Set the output folder                           → Section 9
+   5. Select a profile (built-in or your own)        → Section 10
+   6. Edit settings if needed                        → Sections 11-12
+   7. Press "▷ Start"                                → Section 13
+   8. If needed, press "Cancel"                      → Section 13
+
+The tab's top-to-bottom structure:
+   Mode row → File area → Info rows (file count, names.txt, song
+   name, artist/album, output) → Profile section and settings
+   editor → Start / Cancel / Reset buttons.
+
+═══════════════════════════════════════════════════════
+6. Modes: Folder (Batch), Single File
+═══════════════════════════════════════════════════════
+You select the mode with one of the two buttons at the top. The
+file area and the related rows change according to the selected
+mode.
+
+FOLDER (Batch Processing)
+   • Click the "📁 Select Folder" area and choose the folder
+     containing audio files.
+   • The app scans and counts all supported audio files in the
+     folder:
+       - "Audio files: N files"
+       - "names.txt: Found (M names)" — used for output naming if
+         present (Section 7)
+       - "Output folder: <path>" (Section 9)
+   • "▷ Start" becomes active; the files are processed in order.
+
+SINGLE FILE (Single File Processing)
+   • Click the "🎵 Select File" area and choose an audio file.
+   • The file name is automatically placed in the "Song Name"
+     field; change it if you like (Section 8).
+   • The "1 file" info and the output folder are shown.
+
+═══════════════════════════════════════════════════════
+7. File Selection and Naming (names.txt)
+═══════════════════════════════════════════════════════
+Supported extensions
+   MP3, M4A, AAC, WAV, FLAC, OGG, OPUS, WMA, AIFF/AIF, ALAC, MKA,
+   MP4, WEBM
+
+names.txt (Folder mode only)
+   If a file named "names.txt" exists INSIDE the folder you
+   selected, each line is used as an OUTPUT FILE NAME:
+     line 1 → the first file's name
+     line 2 → the second file's name
+     ...
+   • If there are fewer lines than files, the remaining files keep
+     their original names.
+   • If names.txt is missing, files are saved with their original
+     names.
+
+Name cleaning (security)
+   Invalid Windows characters in output names
+   ( \ / : * ? " < > | ) are automatically replaced with "_";
+   trailing dots are dropped; if the name becomes empty, "track"
+   is used.
+
+Name collisions
+   If the same name already exists in the same folder, the file is
+   not overwritten; " (1)", " (2)"... are added automatically.
+
+═══════════════════════════════════════════════════════
+8. Song Name / Artist / Album (Metadata)
+═══════════════════════════════════════════════════════
+The Convert tab has three text fields:
+
+   • Song Name
+       - Auto-filled from the file name in single-file mode.
+       - Used as the name of the output file and as the "title"
+         tag (depending on the metadata mode).
+   • Artist  → written to the output as the "artist" tag.
+   • Album   → written to the output as the "album" tag.
+
+These values are written to the output unless the metadata mode
+is "Completely Clear" (Section 11: Metadata mode).
+
+═══════════════════════════════════════════════════════
+9. Output Folder and Output Files
+═══════════════════════════════════════════════════════
+Output field (the empty field in the "Output" row)
+   • If filled: converted files are written exactly into this
+     folder.
+   • If empty (default): an "AuraNada_Output" folder is created
+     below the source location.
+   The buttons right next to it:
+     • "···"        → folder dialog to pick a folder
+     • "Default"    → clears the field, returns to the automatic
+                      output path
+
+Output Files
+   • The format and bit rate are determined by the selected
+     profile.
+   • Colliding names are protected by automatically adding "(1)".
+
+═══════════════════════════════════════════════════════
+10. Profiles: Built-In Profiles, Creating, Resetting, Deleting
+═══════════════════════════════════════════════════════
+What Is a Profile?
+   A profile = a saved bundle of conversion settings (format, bit
+   rate, LUFS, sample rate, effects, etc.). When you switch to a
+   profile, those settings are reflected in all fields; the changes
+   you make are saved TO that profile.
+
+Selecting a Profile (chips)
+   Click the rounded labels (chips) under the "Profile" heading.
+   The active profile is highlighted.
+   The A/B Preview tab has the same chip row; a profile change can
+   also be selected there.
+   When the profile changes, the A/B memory is cleared
+   automatically but the file is KEPT (Section 17).
+
+Built-in Profiles
+   • YouTube Master
+       Reference designed for YouTube upload:
+       M4A · 320k · 48 kHz · -14 LUFS · slight stereo widening
+       (x1.10) · Warmth +1.2 dB.
+   • Natural
+       Profile with minimal processing: M4A · 192k · 44.1 kHz ·
+       -14 LUFS · stereo widening and Warmth OFF. A result close
+       to the original tone.
+   • High Quality
+       Broader dynamics target: M4A · 320k · 48 kHz · -16 LUFS ·
+       stereo x1.15 · Warmth +1.0 dB.
+   • Original
+       Normalization OFF: the loudness is kept untouched (no LUFS
+       target applied). M4A · 192k · 44.1 kHz.
+   • Loud
+       Bright/loud target: -10 LUFS · M4A · 192k · stereo widening
+       + Warmth + Compression on.
+
+   Built-in profiles cannot be deleted; their values can be edited
+   and reset to factory values with "⟳ Reset".
+
+Creating a Profile (➕ Create Profile)
+   1. Edit the settings as you like (Sections 11-12).
+   2. Click "➕ Create Profile".
+   3. In the dialog type a name and click "Save".
+   4. The new profile appears as a chip and is selected.
+   A second profile with the same name cannot be created.
+
+Resetting a Profile (⟳ Reset)
+   Returns the active profile's settings to factory values. For
+   built-in profiles it goes back to the publisher-defined values;
+   for your own profiles it goes back to the default settings.
+
+Deleting a Profile (🗑 Delete)
+   • Built-in profiles cannot be deleted (a "Default profiles
+     cannot be deleted" warning is shown).
+   • For your own profiles it asks for confirmation; if you
+     confirm it is deleted from disk and the app switches to the
+     "YouTube Master" profile.
+
+Storage location: %APPDATA%\AuraNada\profiles.json (Section 17).
+
+═══════════════════════════════════════════════════════
+11. Settings Editor: Meaning of All Parameters
+═══════════════════════════════════════════════════════
+The settings editor has two columns: on the left "Output Format &
+Quality" and "Advanced Output", on the right "Effects". Every
+change is immediately written to the active profile and saved to
+disk.
+
+FOR.1 - Format (output format)
+   m4a / mp3 / aac / wav / flac / ogg / opus
+   • m4a (AAC): common, good quality/size balance (default)
+   • mp3      : widest compatibility
+   • aac      : Apple ecosystem compatible
+   • wav      : lossless, huge files (bit rate not applied)
+   • flac     : lossless compressed (bit rate not applied)
+   • ogg / opus: modern streaming, good compression
+
+FOR.2 - Bitrate
+   320k / 256k / 192k / 128k
+   Data per second. Higher = quality + size.
+   Bit rate is not applied to WAV and FLAC.
+
+FOR.3 - LUFS target
+   -9 / -10 / -11 / -12 / -13 / -14 / -16 / -18 / -23
+   The target average loudness (perceived loudness) of the output.
+   Examples: YouTube/podcast -14/-16, broadcast -23. The "Original"
+   profile turns normalization off.
+
+ADV.1 - Metadata mode
+   • "Clean + Write Core Info" (default): internal tags are
+     removed; song name/artist/album are written anew.
+   • "Keep Protected Tags": original tags are kept; the
+     song/artist/album values are overwritten.
+   • "Completely Clear": ALL tags are removed; the song name,
+     artist and album are not written.
+
+ADV.2 - Sample rate
+   44100 / 48000 / 96000
+   44100 = CD standard, 48000 = video standard, 96000 = high
+   resolution (large files).
+
+ADV.3 - True Peak
+   -0.8 / -1.0 / -1.2 / -2.0 (dBTP)
+   Limits the inter-sample peak; prevents excessive overshoot and
+   digital clipping.
+
+ADV.4 - LRA (Loudness Range)
+   7 / 9 / 11 / 13 / 17 (LU)
+   The dynamic range to preserve during normalization.
+   Usually 11-17 for music.
+
+ADV.5 - Normalization
+   • "On (LUFS target)": automatically adjusts loudness to the LUFS
+     target + a signal limiter.
+   • "Off (keep audio as-is)": no loudness intervention at all
+     (similar to the Original profile).
+
+These parameters are the complete current settings group:
+   lufs, bitrate, format, pitch, tempo, watermark,
+   stereo, stereo_width, warmth, warmth_gain, reverb,
+   reverb_amount, noise, noise_level, kompres,
+   metadata_mode, sample_rate, true_peak, lra, normalize
+
+═══════════════════════════════════════════════════════
+12. Effects: What Each Effect Does
+═══════════════════════════════════════════════════════
+Effects are in the right column; click a heading to expand/collapse
+it. While open, its slider appears and is applied to the output.
+
+   🎛 Pitch / Tempo Micro-Adjust
+       Sliders: Pitch (up to ±3.0 semitones), Tempo (0.05-0.5%).
+       Changes the tonality and speed at a micro level.
+       For creative purposes. NOTE: This filter does NOT bypass or
+       remove "provenance/fingerprint" traces of production
+       platforms.
+
+   🔊 Stereo Widening
+       Slider: x1.00 ↔ x2.00 (stereo width).
+       Adds air to mono recordings; extreme values can create phase
+       issues. It is off in the "Natural" profile.
+
+   🌡 Warmth EQ
+       Slider: +0.5 ↔ +5.0 dB (default +1.5).
+       A slight boost at 250 Hz + a counterbalance in the highs.
+       Removes digital coldness and adds organic warmth.
+
+   ⬛ Dynamic Compression
+       Fixed: Threshold -18 dB · Ratio 2:1 · Attack 20 ms ·
+       Release 200 ms · Makeup +1.5 dB.
+       Narrows the dynamic range; provides a "loud" feel and
+       consistency.
+
+   🏛 Room Reverb
+       Slider: 0.10 ↔ 1.00 (amount).
+       A light room/ambience layer; 0.20 is near-ideal for music.
+
+   📼 Tape Hiss
+       Slider: 0.05 ↔ 0.50 (level).
+       Adds a tape/noise texture. Keep it VERY LOW — 0.05-0.15 is
+       recommended. Values close to 0.50 make the noise clearly
+       audible.
+
+Important: Effects and all other settings are applied 1:1 to the
+selected profile's output; when using effects, they are stored in
+whichever profile is active.
+
+═══════════════════════════════════════════════════════
+13. Starting Conversion, Progress and Cancel
+═══════════════════════════════════════════════════════
+Start ("▷ Start")
+   • Becomes active when a file/folder is selected.
+   • Each file progresses in two stages: measurement (LUFS) first,
+     then processing.
+   • The Start button turns into a progress bar during the job:
+       "Processing 3/10 · 30%"
+       "~12s remaining" estimated-time notes
+
+Cancel ("Cancel" button)
+   When you press Cancel:
+   1. The currently running ffmpeg process is STOPPED (terminated
+      together with its sub-processes). Hundreds-of-seconds files
+      are not waited on.
+   2. Files that have not started are skipped.
+   3. A notification window appears: "Operation Canceled
+      (processed/total files)".
+      Converted files stay in the folder; they are not deleted.
+
+Result Notifications
+   • Success: "N files · Profile: <name> · Duration: ... ·
+     Location: <folder>" + the output folder is opened
+     automatically.
+   • Partial errors: "These files could not be converted: ..." and
+     the Start button becomes "▷ Retry · N errors".
+   • Unexpected error: the operation stops safely and the button
+     becomes "▷ Retry · Error".
+
+IMPORTANT: While a conversion is running only the related settings
+are locked (Section 14). If you close the app, the operation stops
+halfway; the completed files wait in the folder.
+
+═══════════════════════════════════════════════════════
+14. Lock Behavior (During Conversion)
+═══════════════════════════════════════════════════════
+When a conversion STARTS, the following are locked automatically
+for consistency (they appear faded; cannot be clicked/changed):
+
+   • Profile chips (in the Convert and A/B tabs)
+   • ➕ Create Profile / ⟳ Reset / 🗑 Delete buttons
+   • ALL controls in the settings editor:
+       Format, Bitrate, LUFS, Metadata mode, Sample rate,
+       True Peak, LRA, Normalization
+       + all effect sliders and their on/off headings
+
+This way the conversion ends exactly with the profile and settings
+it started with. When the operation finishes (success, error or
+cancel), the lock is released automatically.
+
+This lock applies ONLY to profiles and settings; the file selection
+and output folder field are not locked.
+
+═══════════════════════════════════════════════════════
+15. Analyze Tab: How to Read the Results?
+═══════════════════════════════════════════════════════
+Analysis produces the TECHNICAL REPORT of a file. The goal: learn
+the file's real properties and base your conversion/profile
+decisions on them.
+
+How to Use It?
+   1. Go to the Analyze tab.
+   2. Click "📁 Select File & Analyze" and choose the file.
+   3. The results are listed in the report box.
+   4. Use "⧉ Copy" to copy the whole report to the clipboard.
+   5. Use "🗑 Clear" to reset the report/area.
+
+Sections Shown in the Report
+   • GENERAL
+       File name, size (MB), duration (min:sec), codec, sample
+       rate, channel count, bit rate (kbps).
+   • LOUDNESS (EBU R128)
+       Integrated (LUFS), True Peak (dBTP), LRA (LU),
+       Threshold (LUFS), Target Offset (LU).
+       If no data can be fetched: "Loudness data unavailable"
+       warning.
+   • PEAK / RMS / DC
+       True Peak (dBFS), RMS level (dBFS), DC Offset.
+       If the DC offset is above 0.01 it is flagged as a warning.
+   • METADATA
+       All tags in the file and, if present, encoder info.
+
+How to Evaluate the Results?
+   • If the bit rate is much lower than expected, the source is
+     already bad; re-encoding with a high-quality profile does not
+     improve the source.
+   • Use the LUFS value as a reference when choosing your output
+     target.
+
+═══════════════════════════════════════════════════════
+16. A/B Preview Tab: Original vs Processed
+═══════════════════════════════════════════════════════
+You compare the ORIGINAL (A) and the PROCESSED-WITH-THE-SELECTED-
+PROFILE (B) version of the same file by listening. You can hear the
+result without converting the whole file.
+
+How to Use It?
+   1. Go to the A/B Preview tab.
+   2. Select an audio file with "📁 Select File".
+   3. Change the Start (s) and Duration (s) fields if needed
+      (default: 0 s / 15 s).
+   4. If you want, switch the profile from the chip row above.
+   5. Press "▷ Generate A/B":
+        - A: the original segment (unprocessed)
+        - B: the segment processed with the profile
+      Status line: "A/B ready · <profile> · <duration>s"
+   6. Listen from the A and B players. WHILE ONE IS PLAYING THE
+      OTHER STOPS AUTOMATICALLY (for easier comparison).
+   Under the B player: "Processed · 15s · 320k m4a";
+   under A: "Original · 15s".
+
+Screen Elements
+   • File name field: shows the name of the selected file
+   • Chip row: the active profile; when the profile changes:
+       - The memory (A/B segments) is CLEARED
+       - THE FILE IS KEPT
+       - The status line says "Profile changed, memory cleared.
+         File kept."
+   • ⟳ Reset: clears the file + memory → "Test reset, removed from
+     memory."
+   • Log box: the engine's last output
+     (statuses such as A OK / B ERROR).
+
+Hidden Preview Files
+   A/B segments are stored as temporary files:
+   %TEMP%\AuraNada_preview_A.m4a and _B.m4a.
+   These are cleaned automatically on every app launch and during
+   uninstall.
+
+NOTE: The B generated with the "Original" profile (normalization
+off) is the closest sound to the original; try the other profiles
+when you want to hear a difference.
+
+═══════════════════════════════════════════════════════
+17. Where Is the Data Stored? (Privacy)
+═══════════════════════════════════════════════════════
+All app data is LOCAL and stored in your user account. Its typical
+location is: %APPDATA%\AuraNada
+
+   SETTINGS FILE  settings.json  → output folder preference,
+                                   last selected profile, etc.
+   PROFILE FILE   profiles.json  → all of your profiles
+   HISTORY FILE   history.json   → the last 100 conversion records
+                                   (date, mode, profile, format,
+                                   bit rate, LUFS, effect summary,
+                                   result)
+
+Security Commitments
+   • Runs offline; data is NEVER sent outside.
+   • Contains no telemetry, statistics, ads or tracking.
+   • These data are also cleaned during uninstall (Section 21).
+
+═══════════════════════════════════════════════════════
+18. Troubleshooting
+═══════════════════════════════════════════════════════
+The App Does Not Open
+   • Restart the computer.
+   • If antivirus/Windows Defender blocked AuraNada, check the
+     quarantine, restore it and add an exception.
+   • If it still fails, uninstall and do a clean install
+     (Section 21).
+
+"Windows protected your PC" / SmartScreen Warning
+   • It appears because the signature uses a self-signed
+     certificate; it is harmless. Click "More info" > "Run anyway".
+
+The FFmpeg Badge Is Red ("FFmpeg not found")
+   • The installation may be broken. Do a clean install (Section 21).
+
+Cancel Doesn't Work / It Keeps You Waiting
+   • In version 3.2.0 Cancel terminates the running audio engine
+     immediately. If you use an old installation, update it.
+
+No Sound (in the A/B players)
+   • Check the system volume and the default output device.
+
+A File Doesn't Convert / Failed Files
+   • The file may be corrupt or unsupported. Try opening it in
+     another player.
+   • If the name has invalid characters/extensions, fix the name
+     and try again.
+
+Items Appearing One by One After Installation
+   • There should be a single "AuraNada" folder in the Start Menu.
+     If it looks cluttered it is leftover from an old version; do a
+     clean install (Section 21).
+
+Still Not Solved?
+   • Note the version number, uninstall and do a clean install
+     (Section 21).
+
+═══════════════════════════════════════════════════════
+19. Frequently Asked Questions
+═══════════════════════════════════════════════════════
+Q: Is internet required?
+A: No. AuraNada runs completely offline.
+
+Q: Do I need to install another program?
+A: No. The audio engine and encoders are inside the package.
+
+Q: Can I try the same file with multiple profiles?
+A: Yes. In the A/B tab select the file and switch the profile; the
+   file is kept and a new B is generated (as in Section 16).
+
+Q: Where are the profile settings saved?
+A: To the %APPDATA%\AuraNada\profiles.json file, immediately to
+   disk; no manual saving needed.
+
+Q: Can I change settings during conversion?
+A: No; the profile and settings stay locked throughout the job and
+   unlock when it ends (Section 14).
+
+Q: What happens to a half-processed file when I cancel?
+A: The running file is left unfinished but is NOT deleted; the
+   completed files stay in the folder. You can complete the
+   remaining work by restarting.
+
+Q: Is "Run anyway" safe?
+A: Yes. The warning appears only because the signature was not
+   issued by a trusted CA; the package belongs to AuraNada and is
+   offline.
+
+Q: Will my output files be deleted on uninstall?
+A: No. Only the program, shortcuts, app data and temporary files
+   are cleaned; the files you converted remain in place.
+
+═══════════════════════════════════════════════════════
+20. Legal Notice and Liability
+═══════════════════════════════════════════════════════
+DRM and Access Control
+   • DRM-protected content is content that is encrypted, licensed
+     or tied to a service.
+   • AuraNada does NOT break, disable or bypass DRM. Using it to
+     remove such protection is risky with regard to laws and terms
+     of service, and the responsibility lies ENTIRELY WITH THE USER.
+
+Embedded Watermark
+   • Some tracks carry an identifying mark (watermark) inside the
+     audio. AuraNada performs no operation that removes, hides or
+     breaks them.
+   • Removing an embedded identifier creates a risk of copyright
+     infringement and forgery.
+
+Copyright / Liability
+   • Convert/share only content you own the copyright to or that is
+     explicitly permitted.
+   • AuraNada is a tool; the legality of its use and any legal
+     responsibility arising from it belong to THE USER.
+   • The app cannot verify the copyright status of content.
+
+LEGAL NOTICE
+   This guide is informational and is not legal advice.
+
+═══════════════════════════════════════════════════════
+21. Uninstall and Clean Install
+═══════════════════════════════════════════════════════
+Uninstall (Method 1 - Start Menu)
+   Start Menu > AuraNada > "Uninstall AuraNada" — confirm the
+   wizard that opens.
+
+Uninstall (Method 2 - Settings/Control Panel)
+   1. Type "Add or Remove Programs" into Windows Search.
+   2. Find "AuraNada" in the list.
+   3. Click "Uninstall" and confirm.
+
+What Does the Uninstaller Clean? (Zero-Trace Policy)
+   • App files (installation folder)
+   • The "AuraNada" folder in the Start Menu (app, guide and
+     uninstaller shortcuts)
+   • The desktop shortcut
+   • App data: %APPDATA%\AuraNada (settings, profiles, history)
+     and %LOCALAPPDATA% leftovers
+   • Temporary preview files (%TEMP%\AuraNada_preview_*)
+   • Invisible NSIS temporary copies left from install/uninstall
+     (%TEMP%\~nsu*.tmp) and the empty install folder itself (via a
+     hidden cleanup)
+   IT NEVER TOUCHES YOUR CONVERTED OUTPUT FILES.
+
+Note: If your uninstall preference has a "delete app data too"
+setting, it comes ON by default; keep in mind that your settings
+and profiles will also be deleted.
+
+Reinstalling (CLEAN INSTALL RECOMMENDED)
+   Most issues come from leftover old installations:
+   1. Uninstall the old AuraNada (using one of the methods above).
+   2. If you want, check for remaining "AuraNada" folders.
+   3. Run the current "AuraNada Setup 3.2.0.exe".
+   4. Retry conversion/analysis/A-B.
+
+═══════════════════════════════════════════════════════
+      AuraNada 3.2.0  •  English  •  Offline
+         Comprehensive User Guide — v3.2.0
+═══════════════════════════════════════════════════════

@@ -1,0 +1,73 @@
+{
+  "name": "auranada",
+  "productName": "AuraNada",
+  "version": "3.2.0",
+  "description": "AuraNada — Audio Studio",
+  "main": "main.js",
+  "author": "suphimen",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "node scripts/dist.js",
+    "distsetup": "electron-builder --win --x64 --nsis"
+  },
+  "devDependencies": {
+    "electron": "^44.4.1",
+    "electron-builder": "^26.15.3",
+    "javascript-obfuscator": "^5.7.0"
+  },
+  "build": {
+    "appId": "com.auranada.audiostudio",
+    "productName": "AuraNada",
+    "files": [
+      "main.js",
+      "preload.js",
+      "lib/**/*",
+      "src/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "ffmpeg.exe",
+        "to": "ffmpeg.exe"
+      },
+      {
+        "from": "ffprobe.exe",
+        "to": "ffprobe.exe"
+      },
+      {
+        "from": "USER_GUIDE.txt",
+        "to": "USER_GUIDE.txt"
+      }
+    ],
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": true,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true
+    },
+    "win": {
+      "icon": "build/AuraNada_icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "uninstallDisplayName": "AuraNada",
+      "perMachine": false,
+      "createStartMenuShortcut": false,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "AuraNada",
+      "deleteAppDataOnUninstall": true,
+      "include": "build/installer.nsh"
+    }
+  }
+}

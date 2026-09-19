@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-obf/
+build/cert/
+build/AuraNada.inno.iss
+ffmpeg.exe
+ffprobe.exe
+*.log

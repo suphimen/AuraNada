@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AuraNada</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="window">
+
+  <div class="titlebar">
+    <div class="brand">
+      <img class="mark" src="AuraNada_icon.png" alt="AuraNada" title="AuraNada">
+      <div class="name">AuraNada</div>
+      <div class="sub">Audio Studio</div>
+    </div>
+    <div class="win-controls">
+      <button id="btn-min" title="Minimize"><div class="dash"></div></button>
+      <button id="btn-max" title="Maximize"><div class="box"></div></button>
+      <button id="btn-close" class="close-btn" title="Close"><div class="cross"></div></button>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-p="p1"><div class="dot"></div>Convert</div>
+    <div class="tab" data-p="p4"><div class="dot"></div>Analyze</div>
+    <div class="tab" data-p="p5"><div class="dot"></div>A/B Preview</div>
+    <div class="tabs-right"><span class="ff-badge" id="ffmpeg-status">Checking FFmpeg…</span></div>
+  </div>
+
+  <div class="body">
+
+    <!-- ================= CONVERT ================= -->
+    <div class="panel active" id="p1">
+
+      <div class="mode-row">
+        <div class="row-label">Mode</div>
+        <div class="switch on" id="sw-klasor"><div class="knob"></div><span>Folder (batch)</span></div>
+        <div class="switch off" id="sw-tek"><div class="knob"></div><span>Select File</span></div>
+      </div>
+
+      <div class="dropzone" id="dz-klasor">
+        <div class="ico">📁</div>
+        <div class="title">Select Folder</div>
+        <div class="hint">Choose a folder containing audio files</div>
+        <div class="selected" id="dz-klasor-selected"></div>
+      </div>
+      <div class="dropzone hidden" id="dz-tek">
+        <div class="ico">🎵</div>
+        <div class="title">Select File</div>
+        <div class="hint">Choose an audio file</div>
+        <div class="selected" id="dz-tek-selected"></div>
+      </div>
+
+      <div class="fields">
+        <div class="field"><div class="row-label">Audio files</div><div class="val" id="f-count">—</div></div>
+        <div class="field" id="field-names"><div class="row-label">names.txt</div><div class="val" id="f-names">—</div></div>
+        <div class="field hidden" id="field-sarki">
+          <div class="row-label">Song Name</div><input type="text" id="inp-sarki">
+        </div>
+        <div class="field split">
+          <div class="row-label">Artist</div><input type="text" id="inp-artist">
+          <div class="inline-label">Album</div><input type="text" id="inp-album">
+        </div>
+        <div class="field">
+          <div class="row-label">Output</div>
+          <div class="output-row">
+            <input type="text" id="inp-cikti" placeholder="Default: source folder / AuraNada_Output">
+            <div class="chip-btn" id="btn-cikti-sec">···</div>
+            <div class="chip-btn" id="btn-cikti-reset">Default</div>
+          </div>
+        </div>
+        <div class="field"><div class="row-label">Output folder</div><div class="val" id="f-ciktiklasoru">—</div></div>
+      </div>
+
+      <!-- PROFILE BAR (below output folder) -->
+      <div class="profile-section" id="profile-section">
+        <div class="profile-toolbar">
+          <span class="profile-head-title">Profile</span>
+          <div class="profile-chips" id="profile-chips"></div>
+          <div class="profile-actions">
+            <button class="profile-btn" id="btn-profil-kaydet" title="Create a new profile from current settings">➕ Create Profile</button>
+            <button class="profile-btn" id="btn-profil-sifirla" title="Reset the selected profile to factory settings">⟳ Reset</button>
+            <button class="profile-btn profile-btn-del" id="btn-profil-sil" title="Delete the selected profile">🗑 Delete</button>
+          </div>
+        </div>
+
+        <!-- PROFILE SETTINGS EDITOR (the single real settings panel) -->
+        <div class="profile-editor">
+          <div class="pe-col">
+            <div class="s-card">
+              <div class="s-title">Output Format &amp; Quality</div>
+              <div class="s-field"><label>Format</label>
+                <select id="set-format">
+                  <option value="m4a">m4a</option><option value="mp3">mp3</option><option value="aac">aac</option>
+                  <option value="wav">wav</option><option value="flac">flac</option><option value="ogg">ogg</option><option value="opus">opus</option>
+                </select>
+              </div>
+              <div class="s-field"><label>Bitrate</label>
+                <select id="set-bitrate">
+                  <option value="320k">320k</option><option value="256k">256k</option><option value="192k">192k</option><option value="128k">128k</option>
+                </select>
+              </div>
+              <div class="s-field"><label>LUFS target</label>
+                <select id="set-lufs">
+                  <option>-9</option><option>-10</option><option>-11</option><option>-12</option><option>-13</option>
+                  <option selected>-14</option><option>-16</option><option>-18</option><option>-23</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="s-card">
+              <div class="s-title">Advanced Output</div>
+              <div class="s-field"><label>Metadata</label>
+                <select id="set-metadata">
+                  <option>Clean + write core info</option>
+                  <option>Keep protected tags</option>
+                  <option>Completely clear</option>
+                </select>
+              </div>
+              <div class="s-field"><label>Sample rate</label>
+                <select id="set-samplerate"><option>44100</option><option>48000</option><option>96000</option></select>
+              </div>
+              <div class="s-field"><label>True Peak</label>
+                <select id="set-truepeak"><option>-0.8</option><option>-1.0</option><option>-1.2</option><option>-2.0</option></select>
+              </div>
+              <div class="s-field"><label>LRA</label>
+                <select id="set-lra"><option>7</option><option>9</option><option>11</option><option selected>13</option><option>17</option></select>
+              </div>
+              <div class="s-field"><label>Normalization</label>
+                <select id="set-normalize"><option value="true">On (LUFS target)</option><option value="false">Off (keep audio as-is)</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="pe-col">
+            <div class="s-card">
+              <div class="s-title">Effects</div>
+
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="watermark"><div class="checkbox" id="chk-watermark"></div><span>🎛 Pitch / Tempo Micro-Adjust</span></div>
+                <div class="toggle-body" id="body-watermark">
+                  <div class="slider-row"><input type="range" id="sl-pitch" min="0.1" max="3.0" step="0.1" value="0"><div class="slider-val" id="val-pitch">+0.0c</div></div>
+                  <div class="slider-row"><input type="range" id="sl-tempo" min="0.05" max="0.5" step="0.05" value="0"><div class="slider-val" id="val-tempo">+0.00%</div></div>
+                  <div class="slider-desc">Creative pitch/tempo adjustment only; does not bypass provenance or fingerprinting.</div>
+                </div>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="stereo"><div class="checkbox on" id="chk-stereo"></div><span>🔊 Stereo Widening</span></div>
+                <div class="toggle-body open" id="body-stereo">
+                  <div class="slider-row"><input type="range" id="sl-stereo" min="1.0" max="2.0" step="0.05" value="1.15"><div class="slider-val" id="val-stereo">×1.15</div></div>
+                </div>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="warmth"><div class="checkbox on" id="chk-warmth"></div><span>🌡 Warmth EQ</span></div>
+                <div class="toggle-body open" id="body-warmth">
+                  <div class="slider-row"><input type="range" id="sl-warmth" min="0.5" max="5.0" step="0.05" value="1.5"><div class="slider-val" id="val-warmth">+1.5dB</div></div>
+                  <div class="slider-desc">250Hz boost — removes digital harshness, adds organic warmth</div>
+                </div>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="kompres"><div class="checkbox" id="chk-kompres"></div><span>⬛ Dynamic Compression</span></div>
+                <div class="toggle-body" id="body-kompres">
+                  <div class="slider-desc">Threshold: -18dB · Ratio: 2:1 · Makeup: +1.5dB</div>
+                </div>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="reverb"><div class="checkbox" id="chk-reverb"></div><span>🏛 Room Reverb</span></div>
+                <div class="toggle-body" id="body-reverb">
+                  <div class="slider-row"><input type="range" id="sl-reverb" min="0.1" max="1.0" step="0.05" value="0.2"><div class="slider-val" id="val-reverb">0.20</div></div>
+                </div>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-head" data-toggle="noise"><div class="checkbox" id="chk-noise"></div><span>📼 Tape Hiss</span></div>
+                <div class="toggle-body" id="body-noise">
+                  <div class="slider-row"><input type="range" id="sl-noise" min="0.05" max="0.5" step="0.05" value="0.08"><div class="slider-val" id="val-noise">0.080</div></div>
+                  <div class="slider-desc" style="color:#F2B134;">Keep it low (0.05–0.15 recommended)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-start btn-prog" id="btn-basla" disabled><span class="btn-fill"></span><span class="btn-label">▷ Start</span></button>
+        <button class="btn-cancel" id="btn-iptal" disabled>Cancel</button>
+        <button class="btn-refresh" id="btn-sifirla" title="Reset selection">⟳</button>
+      </div>
+      <div class="note"><a id="suphimen-link">suphimen</a></div>
+    </div>
+
+    <!-- ================= ANALYZE ================= -->
+    <div class="panel" id="p4">
+      <div class="h1">Audio File Analysis</div>
+      <div class="h1-sub">Analyzes the selected file and shows technical information and metadata tags.</div>
+
+      <div class="drop-thin" id="analiz-label">No file selected</div>
+
+      <div class="analiz-btn-row">
+        <button class="btn-primary btn-prog" id="btn-analiz-sec"><span class="btn-fill"></span><span class="btn-label">📁 Select File &amp; Analyze</span></button>
+        <button class="btn-ghost" id="btn-analiz-kopyala">⧉ Copy</button>
+        <button class="btn-ghost" id="btn-analiz-temizle">🗑 Clear</button>
+      </div>
+
+      <div class="log-box" id="analiz-text">Results will appear here.</div>
+    </div>
+
+    <!-- ================= A/B PREVIEW ================= -->
+    <div class="panel" id="p5">
+      <div class="h1">A/B Audio Preview</div>
+      <div class="h1-sub">A = original · B = selected filters + normalization. You can play both separately.</div>
+
+      <div class="drop-thin ab-file-row">
+        <span id="ab-label">No file selected</span>
+        <div class="profile-chips ab-chips" id="ab-profile-chips"></div>
+      </div>
+
+      <div class="ab-inputs">
+        <div class="grp">Start (s) <input type="text" id="ab-start" value="0"></div>
+        <div class="grp">Duration (s) <input type="text" id="ab-dur" value="15"></div>
+      </div>
+
+      <div class="ab-row2">
+        <button class="btn-ghost ab-sec-btn" id="btn-ab-sec">📁 Select File</button>
+        <button class="btn-ghost ab-reset-btn" id="btn-ab-sifirla">⟳ Reset</button>
+        <button class="btn-primary btn-prog ab-gen-btn" id="btn-ab-generate" disabled><span class="btn-fill"></span><span class="btn-label">▷ Generate A/B</span></button>
+      </div>
+      <div class="status-line"><span id="ab-durum"></span><span></span></div>
+
+      <div class="ab-player-row">
+        <div class="ab-player">
+          <div class="ab-player-title">A — Original</div>
+          <audio id="audio-a" controls preload="metadata" style="width:100%;"></audio>
+          <div class="ab-player-info" id="ab-info-a"></div>
+        </div>
+        <div class="ab-player">
+          <div class="ab-player-title">B — Processed</div>
+          <audio id="audio-b" controls preload="metadata" style="width:100%;"></audio>
+          <div class="ab-player-info" id="ab-info-b"></div>
+        </div>
+      </div>
+
+      <div class="log-box" id="ab-log" style="min-height:120px;">Processing log will appear here.</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>
